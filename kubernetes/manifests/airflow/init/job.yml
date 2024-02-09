@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airflow-init
+spec:
+  template:
+    spec:
+      containers:
+        - name: airflow-init
+          image: docker.io/library/airflow:latest
+          imagePullPolicy: Never
+          command:
+            - bash
+            - -c
+            - |
+              airflow db init
+              airflow db upgrade
+              airflow users create \
+                --username 'airflow' \
+                --password 'airflow' \
+                --firstname 'John' \
+                --lastname 'Doe' \
+                --email 'john.doe@example.com' \
+                --role Admin
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+      restartPolicy: Never

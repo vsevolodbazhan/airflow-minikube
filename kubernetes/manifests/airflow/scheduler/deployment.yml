@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-scheduler
+  labels:
+    app: airflow
+    component: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow
+      component: scheduler
+  template:
+    metadata:
+      labels:
+        app: airflow
+        component: scheduler
+    spec:
+      hostname: airflow-scheduler
+      containers:
+        - name: airflow-scheduler
+          image: docker.io/library/airflow:latest
+          imagePullPolicy: Never
+          command:
+            - airflow
+            - scheduler
+          ports:
+            - name: logs
+              containerPort: 8793
+          envFrom:
+            - configMapRef:
+                name: airflow-config
