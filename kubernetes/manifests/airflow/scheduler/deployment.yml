@@ -17,6 +17,7 @@ spec:
         app: airflow
         component: scheduler
     spec:
+      serviceAccountName: airflow-user
       hostname: airflow-scheduler
       containers:
         - name: airflow-scheduler

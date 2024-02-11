@@ -13,4 +13,5 @@ with DAG(
     BashOperator(
         task_id="say_hello",
         bash_command="echo 'Hello, world!'",
+        queue="kubernetes",
     )
